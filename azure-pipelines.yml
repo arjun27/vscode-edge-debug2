@@ -1,29 +1,44 @@
 
 queue:
-  name: 'Hosted VS2017'
+  name: Hosted
 
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    versionSpec: '6.9.1'
+  displayName: 'Install Node.js 6.x'
   
 # The next three steps are to handle missing rootDir and outDir in the tsconfig.json
 # These can be removed once we fix support in the build task.
 - script: |
     npm i -g strip-json-comments-cli
     
-- script: |
-    strip-json-comments tsconfig.json | jq ".compilerOptions[\"rootDir\"] = \"src\"" | jq ".compilerOptions[\"outDir\"] = \"src\"" > tsconfig.temp.json
+# Installing jq since the Hosted agent pool does not have it
+# - script: |
+#    chocolatey install jq
+    
+#- script: |
+#    strip-json-comments tsconfig.json | jq ".compilerOptions[\"rootDir\"] = \"src\"" | jq ".compilerOptions[\"outDir\"] = \"src\"" > tsconfig.temp.json
+
+#- script: |
+#    del tsconfig.json
+#    rename tsconfig.temp.json tsconfig.json
 
 - script: |
-    del tsconfig.json
-    rename tsconfig.temp.json tsconfig.json
-
-- script: |
-    yarn install
-    yarn run build
+    npm install
+    npm run build
   displayName: 'npm install and build'
+  
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js 10.x'
+  
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 2.1.503
 
 - task: RichCodeNavIndexer@0
   inputs:
