@@ -6,7 +6,7 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '6.9.1'
-  displayName: 'Install Node.js'
+  displayName: 'Install Node.js 6.x'
   
 # The next three steps are to handle missing rootDir and outDir in the tsconfig.json
 # These can be removed once we fix support in the build task.
@@ -24,6 +24,11 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+  
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js 10.x'
 
 - task: RichCodeNavIndexer@0
   inputs:
