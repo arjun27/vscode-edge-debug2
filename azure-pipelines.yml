@@ -1,0 +1,32 @@
+
+queue:
+  name: 'Hosted VS2017'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+  
+# The next three steps are to handle missing rootDir and outDir in the tsconfig.json
+# These can be removed once we fix support in the build task.
+- script: |
+    npm i -g strip-json-comments-cli
+    
+- script: |
+    strip-json-comments tsconfig.json | jq ".compilerOptions[\"rootDir\"] = \"src\"" | jq ".compilerOptions[\"outDir\"] = \"src\"" > tsconfig.temp.json
+
+- script: |
+    del tsconfig.json
+    rename tsconfig.temp.json tsconfig.json
+
+- script: |
+    yarn install
+    yarn run build
+  displayName: 'npm install and build'
+
+- task: RichCodeNavIndexer@0
+  inputs:
+    serviceConnection: 'rich-code-nav-prod'
+    githubServiceConnection: 'arjun27 (4)'
+    languages: typescript
