@@ -38,7 +38,7 @@ steps:
   displayName: 'Use .NET Core runtime'
   inputs:
     packageType: runtime
-    version: 2.2.203
+    version: 2.2.1
 
 - task: RichCodeNavIndexer@0
   inputs:
