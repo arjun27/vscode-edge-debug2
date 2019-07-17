@@ -14,15 +14,15 @@ steps:
     npm i -g strip-json-comments-cli
     
 # Installing jq since the Hosted agent pool does not have it
-- script: |
-    chocolatey install jq
+# - script: |
+#    chocolatey install jq
     
-- script: |
-    strip-json-comments tsconfig.json | jq ".compilerOptions[\"rootDir\"] = \"src\"" | jq ".compilerOptions[\"outDir\"] = \"src\"" > tsconfig.temp.json
+#- script: |
+#    strip-json-comments tsconfig.json | jq ".compilerOptions[\"rootDir\"] = \"src\"" | jq ".compilerOptions[\"outDir\"] = \"src\"" > tsconfig.temp.json
 
-- script: |
-    del tsconfig.json
-    rename tsconfig.temp.json tsconfig.json
+#- script: |
+#    del tsconfig.json
+#    rename tsconfig.temp.json tsconfig.json
 
 - script: |
     npm install
