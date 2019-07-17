@@ -21,8 +21,8 @@ steps:
     rename tsconfig.temp.json tsconfig.json
 
 - script: |
-    yarn install
-    yarn run build
+    npm install
+    npm run build
   displayName: 'npm install and build'
 
 - task: RichCodeNavIndexer@0
