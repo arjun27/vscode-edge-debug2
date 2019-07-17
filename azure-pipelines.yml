@@ -5,7 +5,7 @@ queue:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '8.x'
+    versionSpec: '6.x'
   displayName: 'Install Node.js'
   
 # The next three steps are to handle missing rootDir and outDir in the tsconfig.json
